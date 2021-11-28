@@ -1,0 +1,31 @@
+@import "variables";
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: $bg;
+  color: $textColor;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.withWidth{
+  box-sizing: border-box;
+  padding: 0 2rem;
+}
+
+@media screen and (min-width: 1281px) {
+  .withWidth{
+    max-width: 1280px;
+    margin: auto;
+  }
+}
