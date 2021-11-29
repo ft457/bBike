@@ -9,9 +9,9 @@ const Features = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod <br/>tempor incididunt consectetur adipiscing elit.</p>
 
             <div className={styles.list}>
-                <Feature title='Delicious Food' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
+                <Feature title='Quality Bikes' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
                 <Feature title='Fun Time' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
-                <Feature title='Healthy Options' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
+                <Feature title='Satisfaction' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
                 <Feature title='Easy parking' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
                 <Feature title='Fast Service' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />
                 <Feature title='Friendly Team' description='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.' />

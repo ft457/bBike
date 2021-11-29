@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 import FormData from "form-data";
 import {useParams} from "react-router";
 
-const Restaurants = props => {
+const Bike = props => {
 
     const params = useParams();
 
@@ -41,23 +41,6 @@ const Restaurants = props => {
                 })
                 .catch(err => {
                     setError(err.response.data.message);
-                })
-        }
-    }
-
-    //delete restaurant
-
-    const deleteBike = () => {
-        if (props.isAuth && props.token && props.role === 'Manager') {
-            axios.delete('http://localhost:8080/bike/' + params.bikeId, {headers: {Authorization: props.token}})
-                .then(res => {
-                    if (res.data.message === 'Bike deleted successfully.') {
-                        props.onFetchBikes();
-                        window.location.replace('/bikes');
-                    }
-                })
-                .catch(err => {
-                    console.log(err.response.data.message);
                 })
         }
     }
@@ -237,7 +220,6 @@ const Restaurants = props => {
         buttons = (
             <div>
                 <button className={styles.rateUs} onClick={() => setEditModalOpen(true)}>Edit Bike</button>
-                <button className={styles.rateUs} onClick={deleteBike}>Delete Bike</button>
             </div>
         )
     }
@@ -312,6 +294,7 @@ const Restaurants = props => {
                         <p><span>Model:</span> {props.bike.model}</p>
                         <p><span>Color:</span> {props.bike.color}</p>
                         <p><span>Location:</span> {props.bike.location}</p>
+                        { props.bike.available ? <p style={{color: 'green'}}>Available</p> : <p style={{color: 'red'}}>Not available</p> }
                     </div>
 
                     <br/>
@@ -451,4 +434,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Restaurants);
+export default connect(mapStateToProps, mapDispatchToProps)(Bike);

@@ -17,30 +17,30 @@ const Navbar = props => {
                       onClick={() => setNav(prevState => !prevState)}> <i className="fas fa-bars"/> </span>
 
                 <ul style={{left: nav ? '0' : '-100%'}}>
-                    <li>
+                    <li onClick={() => setNav(false)}>
                         <Link to='/'>Home</Link>
                     </li>
-                    <li>
+                    <li onClick={() => setNav(false)}>
                         <Link to='/bikes'>Bikes</Link>
                     </li>
 
                     {(props.isAuth && props.role === 'Manager') ? (
-                        <li>
+                        <li onClick={() => setNav(false)}>
                             <Link to='/users'>Users</Link>
                         </li>
                     ) : null}
 
                     {(props.isAuth) ? (
-                        <li>
+                        <li onClick={() => setNav(false)}>
                             <Link to='/reservations'>Reservations</Link>
                         </li>
                     ) : null}
 
-                    <li>
+                    <li onClick={() => setNav(false)}>
                         <Link to='/'>Contact</Link>
                     </li>
 
-                    <li className={styles.auth}>
+                    <li onClick={() => setNav(false)} className={styles.auth}>
                         {props.isAuth ? (
                             <p onClick={() => {
                                 props.onSignout();

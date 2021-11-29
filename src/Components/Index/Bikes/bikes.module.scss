@@ -1,6 +1,6 @@
 @import "src/variables";
 
-.restaurants{
+.bikes{
   text-align: center;
   margin: 10rem 0 2rem 0;
 
@@ -20,7 +20,7 @@
     margin: 0;
   }
 
-  .allRestaurants{
+  .allBikes{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -31,7 +31,7 @@
 }
 
 @media screen and (max-width: 1102px) {
-  .restaurants .allRestaurants{
+  .bikes .allBikes{
     justify-content: center;
   }
 }

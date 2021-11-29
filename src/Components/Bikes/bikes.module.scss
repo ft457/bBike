@@ -1,6 +1,6 @@
 @import "src/variables";
 
-.restaurants{
+.bikes{
   min-height: 90vh;
   margin: 1rem -8px 2rem -8px;
   display: grid;
@@ -21,13 +21,13 @@
 }
 
 @media screen and (max-width: 1224px){
-  .restaurants{
+  .bikes{
     grid-template-columns: 1fr 1fr;
   }
 }
 
 @media screen and (max-width: 768px){
-  .restaurants{
+  .bikes{
     grid-template-columns: 1fr;
   }
 }

@@ -15,7 +15,7 @@ const ManagerReservation = props => {
             .catch(err => {
                 console.log(err.response.data.message)
             })
-    }, []);
+    }, [props.token]);
 
     return(
         <div className='withWidth'>

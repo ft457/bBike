@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {default as SingleRestaurant} from '../Components/Bike/bike';
+import {default as SingleBike} from '../Components/Bike/bike';
 import axios from "axios";
 import {useParams} from "react-router";
 
@@ -7,7 +7,7 @@ const Bike = props => {
 
     const params = useParams();
 
-    // get a restaurant and its reviews
+    // get a bike and its reviews
 
     const [bike, setBike] = useState({});
     const [reviews, setReviews] = useState([]);
@@ -32,7 +32,7 @@ const Bike = props => {
 
     return(
         <div className='withWidth'>
-            <SingleRestaurant bike={bike} reviews={reviews} {...props} />
+            <SingleBike bike={bike} reviews={reviews} {...props} />
         </div>
     )
 }

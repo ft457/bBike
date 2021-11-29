@@ -18,13 +18,12 @@ const Signin = props => {
             axios.post('http://localhost:8080/signin', {email: email, password: password})
                 .then(res => {
                     if(res.data.message === 'Signin successful!'){
-                        props.onSignin(res.data.email, res.data.role, res.data.userId, res.data.token, res.data.restaurants);
+                        props.onSignin(res.data.email, res.data.role, res.data.userId, res.data.token);
 
                         window.localStorage.setItem('email', res.data.email);
                         window.localStorage.setItem('role', res.data.role);
                         window.localStorage.setItem('userId', res.data.userId);
                         window.localStorage.setItem('token', res.data.token);
-                        window.localStorage.setItem('restaurants', JSON.stringify(res.data.restaurants));
 
                         props.onFetchBikes();
                         window.location.replace('/bikes');
@@ -55,7 +54,7 @@ const Signin = props => {
 const mapDispatchToProps = dispatch => {
     return{
         onFetchBikes: () => dispatch(fetchBikes()),
-        onSignin: (email, role, id, token, restaurants) => dispatch({type: actionTypes.SUCCESS_SIGNIN, email: email, role: role, userId: id, token: token, restaurants: restaurants})
+        onSignin: (email, role, id, token) => dispatch({type: actionTypes.SUCCESS_SIGNIN, email: email, role: role, userId: id, token: token})
     }
 }
 

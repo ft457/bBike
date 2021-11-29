@@ -31,7 +31,7 @@ const Bike = props => {
 
     return(
         <Link to={'/bikes/' + props.id}>
-            <div className={styles.restaurant} style={{backgroundImage: 'url(http://localhost:8080/' + props.img + ')'}}>
+            <div className={styles.bike} style={{backgroundImage: 'url(http://localhost:8080/' + props.img + ')'}}>
                 <div className={styles.layer} />
                 <div className={styles.text}>
                     <h1>{props.model}</h1>
