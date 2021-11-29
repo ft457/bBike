@@ -1,10 +1,36 @@
 import styles from './review.module.scss';
 import {connect} from "react-redux";
-import {Fragment} from "react";
+import {Fragment, useRef, useState} from "react";
 import axios from "axios";
 import {fetchBikes} from "../../store/actions/bike";
+import Modal from "../Modal/modal";
+import fileStyle from "../../pages/fileInput.module.scss";
 
 const Review = props => {
+
+    //edit review popup
+    const [modalOpen, setModalOpen] = useState(false);
+    const [error, setError] = useState('');
+    let feedback = useRef(null);
+
+    const editReview = () => {
+        if(feedback.value.length === 0){
+            setError('Enter the feedback.')
+        }
+        else {
+            axios.put('http://localhost:8080/review/' + props.id, {comment: feedback.value},{headers: {Authorization: props.token}})
+                .then(res => {
+                    setError(res.data.message);
+                    if (res.data.message === 'Review edited successfully!') {
+                        props.onFetchBikes();
+                        window.location.reload();
+                    }
+                })
+                .catch(err => {
+                    setError(err.response.data.message);
+                })
+        }
+    }
 
     //delete review
 
@@ -25,6 +51,15 @@ const Review = props => {
 
     return(
         <Fragment>
+
+            <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+                <h2>Edit Review</h2>
+                <br />
+                <textarea ref={el => feedback = el} placeholder='Leave your feedback' type='text'/>
+                <h3 className={fileStyle.error}
+                    style={{color: error === 'Review edited successfully!' ? 'green' : 'red'}}>{error}</h3>
+                <button onClick={editReview}>Submit</button>
+            </Modal>
 
             <div className={styles.review}>
                 <div className={styles.top}>
@@ -54,6 +89,7 @@ const Review = props => {
 
                 {(props.isAuth && props.role === 'Manager') ? (
                     <div className={styles.bottomLinks}>
+                        <p onClick={() => setModalOpen(true)}>Edit</p>
                         <p onClick={deleteReview}>Delete</p>
                     </div>
                 ) : null}
