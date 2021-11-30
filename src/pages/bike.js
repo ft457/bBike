@@ -2,10 +2,13 @@ import {useEffect, useState} from "react";
 import {default as SingleBike} from '../Components/Bike/bike';
 import axios from "axios";
 import {useParams} from "react-router";
+import NotFound from "./notFound";
 
 const Bike = props => {
 
     const params = useParams();
+
+    const [error, setError] = useState(null);
 
     // get a bike and its reviews
 
@@ -18,7 +21,8 @@ const Bike = props => {
                 setBike(res.data);
             })
             .catch(err => {
-                console.log(err);
+                setError(err.response.data.message);
+                console.log(err.response.data.message);
             });
 
         axios.get('http://localhost:8080/reviews/' + params.bikeId)
@@ -28,7 +32,13 @@ const Bike = props => {
             .catch(err => {
                 console.log(err);
             });
-    }, [params.bikeId])
+    }, [params.bikeId]);
+
+    //return 404
+
+    if(error){
+        return <NotFound />
+    }
 
     return(
         <div className='withWidth'>

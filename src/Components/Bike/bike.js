@@ -45,6 +45,23 @@ const Bike = props => {
         }
     }
 
+    //delete restaurant
+
+    const deleteBike = () => {
+        if (props.isAuth && props.token && props.role === 'Manager') {
+            axios.delete('http://localhost:8080/bike/' + params.bikeId, {headers: {Authorization: props.token}})
+                .then(res => {
+                    if (res.data.message === 'Bike deleted successfully.') {
+                        props.onFetchBikes();
+                        window.location.replace('/bikes');
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+    }
+
     // edit bike modal
 
     const [editError, setEditError] = useState('');
@@ -219,7 +236,10 @@ const Bike = props => {
     } else if (props.isAuth && props.role === 'Manager') {
         buttons = (
             <div>
-                <button className={styles.rateUs} onClick={() => setEditModalOpen(true)}>Edit Bike</button>
+                <div>
+                    <button className={styles.rateUs} onClick={() => setEditModalOpen(true)}>Edit Bike</button>
+                    <button className={styles.rateUs} onClick={deleteBike}>Delete Bike</button>
+                </div>
             </div>
         )
     }

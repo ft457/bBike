@@ -1,6 +1,6 @@
 import {default as AllBikes} from '../Components/Bikes/bikes';
 import Modal from "../UI/Modal/modal";
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import styles from './fileInput.module.scss';
 import {connect} from "react-redux";
 import axios from "axios";
@@ -10,7 +10,10 @@ const Bikes = props => {
 
     //filters
     const [filterModal, setFilterModal] = useState(false);
-    const [filter, setFilter] = useState({models: [], colors: [], locations: []});
+    const [models, setModels] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [locations, setLocations] = useState([]);
+    const [rateAverage, setRateAverage] = useState(false);
 
     const getModels = () => {
         const models = [];
@@ -28,42 +31,77 @@ const Bikes = props => {
 
     const onCheckboxChange = (event, type, name) => {
 
-        if(event.target.checked){
-            setFilter(prevState => {
-                if(type === 'Model'){
-                    prevState.models.push(name);
-                }
-                else if(type === 'Color'){
-                    prevState.colors.push(name);
-                }else {
-                    prevState.locations.push(name);
-                }
-                return prevState;
-            })
+        if (!event.target.checked) {
+            switch (type) {
+                case 'Model':
+                    const updatedModels = [...models];
+                    updatedModels.splice(updatedModels.indexOf(name));
+                    setModels(updatedModels);
+                    break;
+                case 'Color':
+                    const updatedColors = [...colors];
+                    updatedColors.splice(updatedColors.indexOf(name));
+                    setColors(updatedColors);
+                    break;
+                case 'Location':
+                    const updatedLocations = [...locations];
+                    updatedLocations.splice(updatedLocations.indexOf(name));
+                    setLocations(updatedLocations);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (type) {
+                case 'Model':
+                    const updatedModels = [...models];
+                    updatedModels.push(name);
+                    setModels(updatedModels);
+                    break;
+                case 'Color':
+                    const updatedColors = [...colors];
+                    updatedColors.push(name);
+                    setColors(updatedColors);
+                    break;
+                case 'Location':
+                    const updatedLocations = [...locations];
+                    updatedLocations.push(name);
+                    setLocations(updatedLocations);
+                    break;
+                default:
+                    break;
+            }
         }
-        else {
-            setFilter(prevState => {
-                if(type === 'Model'){
-                    const index = filter.models ? filter.models.indexOf(name) : -2;
-                    if (index > -1) {
-                        prevState.models.splice(index, 1);
-                    }
-                }
-                else if(type === 'Color'){
-                    const index = filter.colors ? filter.colors.indexOf(name) : -2;
-                    if (index > -1) {
-                        prevState.colors.splice(index, 1);
-                    }
-                }else {
-                    const index = filter.locations ? filter.locations.indexOf(name) : -2;
-                    if (index > -1) {
-                        prevState.locations.splice(index, 1);
-                    }
-                }
 
-                return prevState;
-            })
+    }
+
+    const filteredBikes = () => {
+        if (models.length === 0 && colors.length === 0 && locations.length === 0) {
+            return props.bikes;
         }
+        const modelBikes = [];
+        const colorBikes = [];
+        const locationBikes = [];
+
+        props.bikes.forEach(bike => {
+            if (models.length !== 0) {
+                if (models.includes(bike.model)) {
+                    modelBikes.push(bike)
+                }
+            }
+            if (colors.length !== 0) {
+                if (colors.includes(bike.color)) {
+                    colorBikes.push(bike)
+                }
+            }
+            if (locations.length !== 0) {
+                if (locations.includes(bike.location)) {
+                    locationBikes.push(bike)
+                }
+            }
+        });
+
+        return [...new Set([...modelBikes, ...colorBikes, ...locationBikes])];
     }
 
     //post bike modal
@@ -107,6 +145,16 @@ const Bikes = props => {
         }
     }
 
+    const compare = (a, b) => {
+        if (a.rating < b.rating) {
+            return -1;
+        }
+        if (a.rating > b.rating) {
+            return 1;
+        }
+        return 0;
+    }
+
     return (
         <div className='withWidth'>
 
@@ -138,9 +186,10 @@ const Bikes = props => {
                 <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Model</h3>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                     {getModels().models.map(model => {
-                        return(
+                        return (
                             <div key={model} style={{display: 'flex', alignItems: 'center', height: '50px'}}>
-                                <input style={{width: '40px', transform: 'scale(0.6)'}} type='checkbox' onChange={e => onCheckboxChange(e, 'Model', model)}/>
+                                <input style={{width: '40px', transform: 'scale(0.6)'}} checked={models.includes(model)}
+                                       type='checkbox' onChange={e => onCheckboxChange(e, 'Model', model)}/>
                                 <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>{model}</p>
                             </div>
                         )
@@ -150,9 +199,10 @@ const Bikes = props => {
                 <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Colors</h3>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                     {getModels().colors.map(color => {
-                        return(
+                        return (
                             <div key={color} style={{display: 'flex', alignItems: 'center', height: '50px'}}>
-                                <input style={{width: '40px', transform: 'scale(0.6)'}} type='checkbox'/>
+                                <input style={{width: '40px', transform: 'scale(0.6)'}} checked={colors.includes(color)}
+                                       type='checkbox' onChange={e => onCheckboxChange(e, 'Color', color)}/>
                                 <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>{color}</p>
                             </div>
                         )
@@ -162,13 +212,22 @@ const Bikes = props => {
                 <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Locations</h3>
                 <div style={{display: 'flex', flexWrap: 'wrap'}}>
                     {getModels().locations.map(location => {
-                        return(
+                        return (
                             <div key={location} style={{display: 'flex', alignItems: 'center', height: '50px'}}>
-                                <input style={{width: '40px', transform: 'scale(0.6)'}} type='checkbox'/>
+                                <input style={{width: '40px', transform: 'scale(0.6)'}}
+                                       checked={locations.includes(location)} type='checkbox'
+                                       onChange={e => onCheckboxChange(e, 'Location', location)}/>
                                 <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>{location}</p>
                             </div>
                         )
                     })}
+                </div>
+
+                <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Rate Average</h3>
+                <div style={{display: 'flex', alignItems: 'center', height: '50px'}}>
+                    <input style={{width: '40px', transform: 'scale(0.6)'}} checked={rateAverage} type='checkbox'
+                           onChange={e => setRateAverage(e.target.checked)} />
+                    <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>Rate Average</p>
                 </div>
 
             </Modal>
@@ -176,12 +235,15 @@ const Bikes = props => {
             <div>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <h1 style={{margin: '1rem 0', fontWeight: 900}}>Our Bikes</h1>
-                    {(props.isAuth && props.role === 'Manager') ? (
-                        <button className={styles.submit} onClick={() => setModalOpen(true)}>Add Bike</button>
-                    ) : <button className={styles.submit} onClick={() => setFilterModal(true)}>Apply Filters</button>}
+                    <div>
+                        {(props.isAuth && props.role === 'Manager') ? (
+                            <button className={styles.submit} onClick={() => setModalOpen(true)}>Add Bike</button>
+                        ) : null}
+                        <button className={styles.submit} onClick={() => setFilterModal(true)}>Apply Filters</button>
+                    </div>
                 </div>
 
-                <AllBikes bikes={props.bikes} />
+                <AllBikes bikes={rateAverage ? filteredBikes().sort(compare).reverse() : filteredBikes()}/>
             </div>
         </div>
     )
