@@ -86,13 +86,12 @@ const Review = props => {
                     }
                 </p>
 
-
-                {(props.isAuth && props.role === 'Manager') ? (
-                    <div className={styles.bottomLinks}>
-                        <p onClick={() => setModalOpen(true)}>Edit</p>
+                <div className={styles.bottomLinks}>
+                    <p onClick={() => setModalOpen(true)}>Edit</p>
+                    {(props.isAuth && props.role === 'Manager') ? (
                         <p onClick={deleteReview}>Delete</p>
-                    </div>
-                ) : null}
+                    ) : null}
+                </div>
             </div>
         </Fragment>
     )

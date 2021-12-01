@@ -14,6 +14,7 @@ const Bikes = props => {
     const [colors, setColors] = useState([]);
     const [locations, setLocations] = useState([]);
     const [rateAverage, setRateAverage] = useState(false);
+    const [available, setAvailable] = useState('');
 
     const getModels = () => {
         const models = [];
@@ -76,12 +77,13 @@ const Bikes = props => {
     }
 
     const filteredBikes = () => {
-        if (models.length === 0 && colors.length === 0 && locations.length === 0) {
+        if (models.length === 0 && colors.length === 0 && locations.length === 0 && available.length === 0) {
             return props.bikes;
         }
         const modelBikes = [];
         const colorBikes = [];
         const locationBikes = [];
+        const availableBikes = [];
 
         props.bikes.forEach(bike => {
             if (models.length !== 0) {
@@ -99,9 +101,14 @@ const Bikes = props => {
                     locationBikes.push(bike)
                 }
             }
+            if(available.length !== 0){
+                if(Date.parse(available) < Date.parse(bike.availableTill)){
+                    availableBikes.push(bike);
+                }
+            }
         });
 
-        return [...new Set([...modelBikes, ...colorBikes, ...locationBikes])];
+        return [...new Set([...modelBikes, ...colorBikes, ...locationBikes, ...availableBikes])];
     }
 
     //post bike modal
@@ -114,6 +121,7 @@ const Bikes = props => {
     let colorInput = useRef(null);
     let locationInput = useRef(null);
     let imageInput = useRef(null);
+    let availableTill = useRef(null);
 
     const postBike = () => {
         if (nameInput.value.trim().length === 0 || colorInput.value.trim().length === 0 || locationInput.value.trim().length === 0) {
@@ -125,6 +133,7 @@ const Bikes = props => {
             data.set('model', nameInput.value);
             data.set('color', colorInput.value);
             data.set('location', locationInput.value);
+            data.set('availableTill', availableTill.value);
             data.set('image', imageInput.files[0]);
 
             axios.post('http://localhost:8080/bike', data, {
@@ -166,6 +175,9 @@ const Bikes = props => {
                     <input ref={el => colorInput = el} placeholder='Bike color' type='text'/>
 
                     <input ref={el => locationInput = el} placeholder='Location' type='text'/>
+
+                    <span>Available Till</span>
+                    <input ref={el => availableTill = el} type='datetime-local' style={{marginTop: '0'}}/>
 
                     <label className={styles.file}>
                         <input ref={el => imageInput = el} onChange={event => {
@@ -229,6 +241,13 @@ const Bikes = props => {
                            onChange={e => setRateAverage(e.target.checked)} />
                     <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>Rate Average</p>
                 </div>
+
+                <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Available Till</h3>
+                <div style={{display: 'flex', alignItems: 'center', height: '50px'}}>
+                    <input type='datetime-local' onChange={e => setAvailable(e.target.value)} defaultValue={available} />
+                </div>
+
+                <button onClick={() => setFilterModal(false)}>Save</button>
 
             </Modal>
 

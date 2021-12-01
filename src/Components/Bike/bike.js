@@ -230,7 +230,7 @@ const Bike = props => {
             {props.bike.available ?
                 <button className={styles.rateUs} onClick={() => setReserveModalOpen(true)}>Reserve
                     Bike</button> : null}
-            {!props.bike.available && props.bike.reservedBy === props.userId ?
+            {!props.bike.available && (props.bike.reservedBy === props.userId) ?
                 <button className={styles.rateUs} onClick={cancelReservation}>Cancel Reservation</button> : null}
         </div>
     } else if (props.isAuth && props.role === 'Manager') {
@@ -314,7 +314,8 @@ const Bike = props => {
                         <p><span>Model:</span> {props.bike.model}</p>
                         <p><span>Color:</span> {props.bike.color}</p>
                         <p><span>Location:</span> {props.bike.location}</p>
-                        { props.bike.available ? <p style={{color: 'green'}}>Available</p> : <p style={{color: 'red'}}>Not available</p> }
+                        {props.bike.available ? <p style={{color: 'green'}}>Available</p> :
+                            <p style={{color: 'red'}}>Not available</p>}
                     </div>
 
                     <br/>

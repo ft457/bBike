@@ -6,11 +6,9 @@ export const fetchBikes = () => {
         axios.get('http://localhost:8080/bikes')
             .then(response => {
 
-                const bikes = response.data;
-
                 dispatch({
                     type: actionTypes.FETCH_BIKES_SUCCESS,
-                    bikes: bikes
+                    bikes: response.data
                 });
             })
     }

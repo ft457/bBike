@@ -1,11 +1,10 @@
 import styles from './bikes.module.scss';
 import Bike from "../../UI/Bike/bike.js";
-import {Fragment} from "react";
 
 const Bikes = props => {
 
     return (
-        <Fragment>
+        <div style={{minHeight: '90vh'}}>
             {props.bikes.length === 0 ?
                 <p style={{margin: '2rem 0 0 0', textAlign: 'center'}}>No Bikes</p> : null}
             <div className={styles.bikes}>
@@ -14,7 +13,7 @@ const Bikes = props => {
                                   totalReviews={bike.reviews.length} img={bike.imageUrl.replace('\\', '/')}/>)
                 })}
             </div>
-        </Fragment>
+        </div>
     )
 }
 
