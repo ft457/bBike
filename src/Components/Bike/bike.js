@@ -305,7 +305,7 @@ const Bike = props => {
                 <button onClick={reserveBike}>Submit</button>
             </Modal>
 
-            <div style={{height: reviews.length === 0 ? '80vh' : null}} className={styles.top}>
+            <div style={{minHeight: reviews.length === 0 ? '80vh' : null}} className={styles.top}>
                 <div className={styles.left}>
                     <h1>{props.bike.name}</h1>
 

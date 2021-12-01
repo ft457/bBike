@@ -121,7 +121,6 @@ const Bikes = props => {
     let colorInput = useRef(null);
     let locationInput = useRef(null);
     let imageInput = useRef(null);
-    let availableTill = useRef(null);
 
     const postBike = () => {
         if (nameInput.value.trim().length === 0 || colorInput.value.trim().length === 0 || locationInput.value.trim().length === 0) {
@@ -133,7 +132,6 @@ const Bikes = props => {
             data.set('model', nameInput.value);
             data.set('color', colorInput.value);
             data.set('location', locationInput.value);
-            data.set('availableTill', availableTill.value);
             data.set('image', imageInput.files[0]);
 
             axios.post('http://localhost:8080/bike', data, {
@@ -175,9 +173,6 @@ const Bikes = props => {
                     <input ref={el => colorInput = el} placeholder='Bike color' type='text'/>
 
                     <input ref={el => locationInput = el} placeholder='Location' type='text'/>
-
-                    <span>Available Till</span>
-                    <input ref={el => availableTill = el} type='datetime-local' style={{marginTop: '0'}}/>
 
                     <label className={styles.file}>
                         <input ref={el => imageInput = el} onChange={event => {
