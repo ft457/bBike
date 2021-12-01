@@ -102,7 +102,7 @@ const Bikes = props => {
                 }
             }
             if(available.length !== 0){
-                if(Date.parse(available) < Date.parse(bike.availableTill)){
+                if(bike.available || (Date.parse(available) < Date.parse(bike.bookedFrom) || Date.parse(available) > Date.parse(bike.bookedTo))){
                     availableBikes.push(bike);
                 }
             }
@@ -242,7 +242,7 @@ const Bikes = props => {
                     <p style={{margin: '0 10px 0 0', fontSize: '14px', color: '#222428'}}>Rate Average</p>
                 </div>
 
-                <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Available Till</h3>
+                <h3 style={{fontWeight: 'bold', marginTop: '0.6rem'}}>Available Before</h3>
                 <div style={{display: 'flex', alignItems: 'center', height: '50px'}}>
                     <input type='datetime-local' onChange={e => setAvailable(e.target.value)} defaultValue={available} />
                 </div>

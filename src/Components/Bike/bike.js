@@ -315,7 +315,7 @@ const Bike = props => {
                         <p><span>Color:</span> {props.bike.color}</p>
                         <p><span>Location:</span> {props.bike.location}</p>
                         {props.bike.available ? <p style={{color: 'green'}}>Available</p> :
-                            <p style={{color: 'red'}}>Not available</p>}
+                            <p style={{color: 'red'}}>Not Available</p>}
                     </div>
 
                     <br/>

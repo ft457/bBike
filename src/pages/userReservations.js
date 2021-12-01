@@ -7,7 +7,7 @@ const UserReservations = props => {
     const reservations = props.bikes.filter(bike => bike.reservedBy === props.userId);
 
     return(
-        <div className='withWidth'>
+        <div className='withWidth' style={{minHeight: '90vh'}}>
             <h1 style={{margin: '1rem 0', fontWeight: 900}}>Your Reservations</h1>
 
             {reservations.length === 0 ?
