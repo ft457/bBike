@@ -300,7 +300,7 @@ const Bike = props => {
                 <input ref={el => toInput = el} type='datetime-local'/>
 
                 <h3 className={fileStyle.error}
-                    style={{color: reserveError === 'Review added successfully!' ? 'green' : 'red'}}>{reserveError}</h3>
+                    style={{color: reserveError === 'Bike reserved successfully!' ? 'green' : 'red'}}>{reserveError}</h3>
 
                 <button onClick={reserveBike}>Submit</button>
             </Modal>

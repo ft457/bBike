@@ -76,10 +76,10 @@ const Users = props => {
             else {
                 axios.put('http://localhost:8080/user/' + id, {name: editName.value, email: editEmail.value}, {headers: {Authorization: props.token}})
                     .then(res => {
+                        setEditError(res.data.message);
                         if(res.data.message === 'User edited successfully.'){
                             window.location.reload();
                         }
-                        setEditError(res.data.message);
                     })
                     .catch(err => {
                         if(err.response){
@@ -113,6 +113,7 @@ const Users = props => {
     // delete a user
 
     const deleteUser = (userId) => {
+
         if(props.isAuth && props.role === 'Manager'){
             axios.delete('http://localhost:8080/user/' + userId, {headers: {Authorization: props.token}})
                 .then(res => {
@@ -162,7 +163,7 @@ const Users = props => {
                 <h2>Edit user</h2>
                 <input ref={el => editName = el} type='text' name='name' defaultValue={current.name} placeholder='Full Name'/>
                 <input ref={el => editEmail = el} type='email' name='email' defaultValue={current.email} placeholder='Email'/>
-                <h3 className={styles.error} style={{color: error === 'User edited successfully.' ? 'green' : 'red'}}>{editError}</h3>
+                <h3 className={styles.error} style={{color: editError === 'User edited successfully.' ? 'green' : 'red'}}>{editError}</h3>
                 <button onClick={()=>updateUser(current.id)}>Submit</button>
             </Modal>
 

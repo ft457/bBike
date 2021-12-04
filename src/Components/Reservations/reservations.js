@@ -22,7 +22,7 @@ const Reservations = props => {
                         <tr key={reservation._id}>
                             <td><p>{index+1}</p></td>
                             <td><p>{reservation.name}</p></td>
-                            <td><Link to='/bikes'>{reservation.model}</Link></td>
+                            <td><Link to={'/bikes/' + reservation.reservedBike}>{reservation.model}</Link></td>
                             <td><p>{reservation.reservedFrom}</p></td>
                             <td><p>{reservation.reservedTo}</p></td>
                         </tr>
