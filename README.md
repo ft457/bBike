@@ -17,6 +17,8 @@ Managers can:
  * See all the users who reserved a bike, and the period of time they did it.
 
  * See all the bikes reserved by a user and the period of time they did it.
+ 
+ * Edit reviews 
 
 Users can:
 
