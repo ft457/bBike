@@ -1,4 +1,4 @@
-# Bike
+# bBike
 
 This is a React-based web application that has the following features.
 
